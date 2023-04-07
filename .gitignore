@@ -1,4 +1,6 @@
 .exe
 *.exe
+*.bin
+*.cph
 patterns.cpp
 main.cpp
