@@ -32,43 +32,30 @@ Node *CreateTree(Node *rootNode)
     return rootNode;
 }
 
-vector<vector<int>> LevelOrderTraversal(Node *root)
+int diameter(Node *rootNode, int &maxi)
 {
-    queue<Node *> q;
-    vector<vector<int>> ans;
-    q.push(root);
-    int level = 0;
-    while (!q.empty())
-    {
-        int size = q.size();
-        vector<int> t;
-        for (int i = 0; i < size; i++)
-        {
-            Node *temp = q.front();
-            q.pop();
-            if (temp->left)
-                q.push(temp->left);
-            if (temp->right)
-                q.push(temp->right);
-            t.push_back(temp->data);
-        }
-        if (level & 1 == 0)
-            reverse(t.begin(), t.end());
-        ans.push_back(t);
+    if (rootNode == NULL)
+        return 0;
+    int lh = diameter(rootNode->left, maxi);
+    int rh = diameter(rootNode->right, maxi);
+    maxi = max(maxi, lh + rh);
+    return 1 + max(lh, rh);
+}
 
-        level++;
-    }
-    return ans;
+int diameterSolve(Node *rootNode)
+{
+    if (rootNode == NULL)
+        return 0;
+
+    int maxi = 0;
+    diameter(rootNode, maxi);
+    return maxi;
 }
 
 int main()
 {
     Node *rootNode = NULL;
     rootNode = CreateTree(rootNode);
-    vector<vector<int>> ans = LevelOrderTraversal(rootNode);
 
-    cout << endl;
     return 0;
 }
-
-// 1 3 7 -1 -1 9 -1 -1 5 11 -1 -1 13 -1 -1

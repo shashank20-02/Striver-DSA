@@ -32,42 +32,22 @@ Node *CreateTree(Node *rootNode)
     return rootNode;
 }
 
-vector<vector<int>> LevelOrderTraversal(Node *root)
+int maxSum(Node *root, int maxi)
 {
-    queue<Node *> q;
-    vector<vector<int>> ans;
-    q.push(root);
-    int level = 0;
-    while (!q.empty())
-    {
-        int size = q.size();
-        vector<int> t;
-        for (int i = 0; i < size; i++)
-        {
-            Node *temp = q.front();
-            q.pop();
-            if (temp->left)
-                q.push(temp->left);
-            if (temp->right)
-                q.push(temp->right);
-            t.push_back(temp->data);
-        }
-        if (level & 1 == 0)
-            reverse(t.begin(), t.end());
-        ans.push_back(t);
+    if (root == nullptr)
+        return 0;
 
-        level++;
-    }
-    return ans;
+    int lh = max(0, maxSum(root->left, maxi));
+    int rh = max(0, maxSum(root->right, maxi));
+    maxi = max(maxi, root->data + lh + rh);
+    return root->data + max(lh, rh);
 }
 
 int main()
 {
     Node *rootNode = NULL;
     rootNode = CreateTree(rootNode);
-    vector<vector<int>> ans = LevelOrderTraversal(rootNode);
 
-    cout << endl;
     return 0;
 }
 
